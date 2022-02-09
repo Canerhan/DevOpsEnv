@@ -16,7 +16,7 @@
 				"userProperties": [
 					{
 						"name": "Destination",
-						"value": "Raw_Sales"
+						"value": "Raw.Sales"
 					}
 				],
 				"typeProperties": {
