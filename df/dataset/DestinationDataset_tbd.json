@@ -1,0 +1,17 @@
+{
+	"name": "DestinationDataset_tbd",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Sales",
+			"table": "HTTP file"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
