@@ -343,7 +343,8 @@
 						]
 					},
 					{
-						"name": "Data flow1",
+						"name": "Bronce-Sales",
+						"description": "Transform Raw Sales Data.\nIncluding ONLY Sales from USA.",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -659,8 +660,8 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Bronce",
-					"table": "Sales"
+					"schema": "dbo",
+					"table": "Bronce_Sales"
 				}
 			},
 			"dependsOn": [
