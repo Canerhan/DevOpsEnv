@@ -9,12 +9,12 @@
 						"referenceName": "SQL_DB_Con",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "SQLDB"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1"
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SQLDB"
 		}
 	}
 }
