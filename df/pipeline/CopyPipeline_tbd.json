@@ -309,7 +309,8 @@
 				]
 			},
 			{
-				"name": "Data flow1",
+				"name": "Bronce-Sales",
+				"description": "Transform Raw Sales Data.\nIncluding ONLY Sales from USA.",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
