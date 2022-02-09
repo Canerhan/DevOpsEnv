@@ -48,7 +48,7 @@
 						"userProperties": [
 							{
 								"name": "Destination",
-								"value": "Raw.Sales"
+								"value": "."
 							}
 						],
 						"typeProperties": {
@@ -65,7 +65,10 @@
 							},
 							"sink": {
 								"type": "AzureSqlSink",
-								"tableOption": "autoCreate"
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
 							"translator": {
@@ -333,7 +336,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "DestinationDataset_tbd",
+								"referenceName": "SQL_DB_Con",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -349,11 +352,11 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_tbd')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_tbd')]"
+				"[concat(variables('factoryId'), '/datasets/SQL_DB_Con')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DestinationDataset_tbd')]",
+			"name": "[concat(parameters('factoryName'), '/SQL_DB_Con')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -365,7 +368,7 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Gitweb",
+					"schema": "[[Raw]",
 					"table": "Sales"
 				}
 			},
