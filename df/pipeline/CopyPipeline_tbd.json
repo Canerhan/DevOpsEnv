@@ -35,7 +35,262 @@
 						"type": "AzureSqlSink",
 						"tableOption": "autoCreate"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ORDERNUMBER",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORDERNUMBER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "QUANTITYORDERED",
+									"type": "String"
+								},
+								"sink": {
+									"name": "QUANTITYORDERED",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PRICEEACH",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PRICEEACH",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDERLINENUMBER",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORDERLINENUMBER",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SALES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SALES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ORDERDATE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORDERDATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "STATUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "STATUS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "QTR_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "QTR_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MONTH_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MONTH_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "YEAR_ID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "YEAR_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCTLINE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PRODUCTLINE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MSRP",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MSRP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCTCODE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PRODUCTCODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CUSTOMERNAME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CUSTOMERNAME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PHONE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PHONE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ADDRESSLINE1",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ADDRESSLINE1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ADDRESSLINE2",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ADDRESSLINE2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CITY",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CITY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "STATE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "STATE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "POSTALCODE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "POSTALCODE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "COUNTRY",
+									"type": "String"
+								},
+								"sink": {
+									"name": "COUNTRY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "TERRITORY",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TERRITORY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTACTLASTNAME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CONTACTLASTNAME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTACTFIRSTNAME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CONTACTFIRSTNAME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DEALSIZE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DEALSIZE",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
