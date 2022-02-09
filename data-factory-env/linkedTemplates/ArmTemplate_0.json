@@ -1,0 +1,470 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "data-factory-env"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://Caners-Key-Vault.vault.azure.net/"
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/Canerhan/data-analytics-with-Pandas-Seaborn/main/Sales.csv"
+		},
+		"salesdataurl_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://github.com/Canerhan/data-analytics-with-Pandas-Seaborn"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HttpServer1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('HttpServer1_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/salesdataurl')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('salesdataurl_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_tbd')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "HttpServer1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					},
+					"columnDelimiter": ",",
+					"rowDelimiter": "\n",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HttpServer1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVault1",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "synapseSqlLoginPassword"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_tbd')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Gitweb",
+					"table": "Sales"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyPipeline_tbd')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_tbd",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Destination",
+								"value": "Sales.HTTP file"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"skipLineCount": 0
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ORDERNUMBER",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ORDERNUMBER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "QUANTITYORDERED",
+											"type": "String"
+										},
+										"sink": {
+											"name": "QUANTITYORDERED",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PRICEEACH",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PRICEEACH",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ORDERLINENUMBER",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ORDERLINENUMBER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SALES",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SALES",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ORDERDATE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ORDERDATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "STATUS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "STATUS",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "QTR_ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "QTR_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MONTH_ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "MONTH_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "YEAR_ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "YEAR_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCTLINE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PRODUCTLINE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MSRP",
+											"type": "String"
+										},
+										"sink": {
+											"name": "MSRP",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCTCODE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PRODUCTCODE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CUSTOMERNAME",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CUSTOMERNAME",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PHONE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PHONE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDRESSLINE1",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ADDRESSLINE1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDRESSLINE2",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ADDRESSLINE2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CITY",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CITY",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "STATE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "STATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "POSTALCODE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "POSTALCODE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "COUNTRY",
+											"type": "String"
+										},
+										"sink": {
+											"name": "COUNTRY",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TERRITORY",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TERRITORY",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CONTACTLASTNAME",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CONTACTLASTNAME",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CONTACTFIRSTNAME",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CONTACTFIRSTNAME",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DEALSIZE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DEALSIZE",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_tbd",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_tbd",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-02-09T09:06:31Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_tbd')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_tbd')]"
+			]
+		}
+	]
+}
