@@ -16,7 +16,7 @@
 				"userProperties": [
 					{
 						"name": "Destination",
-						"value": "Sales.HTTP file"
+						"value": "Raw_Sales"
 					}
 				],
 				"typeProperties": {
