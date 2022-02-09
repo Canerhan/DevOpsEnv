@@ -1,5 +1,5 @@
 {
-	"name": "DestinationDataset_tbd",
+	"name": "SQL_DB_Con",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase1",
