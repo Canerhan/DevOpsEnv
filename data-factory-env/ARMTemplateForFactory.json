@@ -341,6 +341,43 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Copy_tbd",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SQLDB": {},
+									"Savetodb": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -352,7 +389,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_tbd')]",
-				"[concat(variables('factoryId'), '/datasets/SQL_DB_Con')]"
+				"[concat(variables('factoryId'), '/datasets/SQL_DB_Con')]",
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
 			]
 		},
 		{
@@ -366,9 +404,110 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "ORDERNUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "QUANTITYORDERED",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PRICEEACH",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ORDERLINENUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SALES",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ORDERDATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "QTR_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MONTH_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "YEAR_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PRODUCTLINE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MSRP",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PRODUCTCODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CUSTOMERNAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ADDRESSLINE1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ADDRESSLINE2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CITY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POSTALCODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COUNTRY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERRITORY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CONTACTLASTNAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CONTACTFIRSTNAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DEALSIZE",
+						"type": "nvarchar"
+					}
+				],
 				"typeProperties": {
-					"schema": "[[Raw]",
+					"schema": "Raw",
 					"table": "Sales"
 				}
 			},
@@ -468,6 +607,65 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SQL_DB_Con",
+								"type": "DatasetReference"
+							},
+							"name": "SQLDB"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSql_sales_USA",
+								"type": "DatasetReference"
+							},
+							"name": "Savetodb"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Filter1"
+						}
+					],
+					"script": "source(output(\n\t\tORDERNUMBER as string,\n\t\tQUANTITYORDERED as string,\n\t\tPRICEEACH as string,\n\t\tORDERLINENUMBER as string,\n\t\tSALES as string,\n\t\tORDERDATE as string,\n\t\tSTATUS as string,\n\t\tQTR_ID as string,\n\t\tMONTH_ID as string,\n\t\tYEAR_ID as string,\n\t\tPRODUCTLINE as string,\n\t\tMSRP as string,\n\t\tPRODUCTCODE as string,\n\t\tCUSTOMERNAME as string,\n\t\tPHONE as string,\n\t\tADDRESSLINE1 as string,\n\t\tADDRESSLINE2 as string,\n\t\tCITY as string,\n\t\tSTATE as string,\n\t\tPOSTALCODE as string,\n\t\tCOUNTRY as string,\n\t\tTERRITORY as string,\n\t\tCONTACTLASTNAME as string,\n\t\tCONTACTFIRSTNAME as string,\n\t\tDEALSIZE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SQLDB\nSQLDB filter(equals(COUNTRY, \"USA\")) ~> Filter1\nFilter1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> Savetodb"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SQL_DB_Con')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSql_sales_USA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSql_sales_USA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Bronce",
+					"table": "Sales"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
 		}
 	]
 }
