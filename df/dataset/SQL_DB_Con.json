@@ -7,7 +7,108 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "ORDERNUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "QUANTITYORDERED",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRICEEACH",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORDERLINENUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SALES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORDERDATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "STATUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "QTR_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MONTH_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "YEAR_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRODUCTLINE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MSRP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRODUCTCODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CUSTOMERNAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PHONE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLINE2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CITY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "STATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "POSTALCODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COUNTRY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TERRITORY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONTACTLASTNAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONTACTFIRSTNAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DEALSIZE",
+				"type": "nvarchar"
+			}
+		],
 		"typeProperties": {
 			"schema": "Raw",
 			"table": "Sales"
