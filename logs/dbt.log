@@ -1,0 +1,59 @@
+
+
+============================== 2023-04-16 09:16:58.866500 | 32aabab0-a83f-4d81-9e42-ed2be943e406 ==============================
+[0m09:16:58.866500 [info ] [MainThread]: Running with dbt=1.4.1
+[0m09:16:58.869134 [debug] [MainThread]: running dbt with arguments {'write_json': True, 'use_colors': True, 'printer_width': 80, 'version_check': True, 'partial_parse': True, 'static_parser': True, 'profiles_dir': '/home/linux_dev_env/.dbt', 'send_anonymous_usage_stats': True, 'quiet': False, 'no_print': False, 'cache_selected_only': False, 'project_name': 'dbt_jaffle_shop', 'skip_profile_setup': False, 'which': 'init', 'indirect_selection': 'eager'}
+[0m09:16:58.869448 [debug] [MainThread]: Tracking: tracking
+[0m09:16:58.874565 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc12a95e800>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc12a95fe50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc12a95d960>]}
+[0m09:16:58.876403 [debug] [MainThread]: Starter project path: /home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/include/starter_project
+[0m09:17:48.312974 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc112e56a10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc112e55a50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc112e55cf0>]}
+[0m09:17:48.314102 [debug] [MainThread]: Flushing usage events
+[0m09:17:48.825592 [error] [MainThread]: Encountered an error:
+
+[0m09:17:48.847296 [error] [MainThread]: Traceback (most recent call last):
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/main.py", line 135, in main
+    results, succeeded = handle_and_check(args)
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/main.py", line 198, in handle_and_check
+    task, res = run_from_args(parsed)
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/main.py", line 245, in run_from_args
+    results = task.run()
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/task/init.py", line 305, in run
+    self.create_profile_from_target(adapter, profile_name=project_name)
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/task/init.py", line 180, in create_profile_from_target
+    self.create_profile_from_profile_template(profile_template, profile_name)
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/task/init.py", line 164, in create_profile_from_profile_template
+    target = self.generate_target_from_input(prompts, initial_target)
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/task/init.py", line 130, in generate_target_from_input
+    target[key] = click.prompt(
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/click/termui.py", line 166, in prompt
+    value = prompt_func(prompt)
+  File "/home/linux_dev_env/py_env/lib/python3.10/site-packages/click/termui.py", line 149, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+
+
+============================== 2023-04-16 09:18:02.645984 | 0f9bd97c-bd34-4c16-b2ca-406c675e7218 ==============================
+[0m09:18:02.645984 [info ] [MainThread]: Running with dbt=1.4.5
+[0m09:18:02.649040 [debug] [MainThread]: running dbt with arguments {'write_json': True, 'use_colors': True, 'printer_width': 80, 'version_check': True, 'partial_parse': True, 'static_parser': True, 'profiles_dir': '/home/linux_dev_env/.dbt', 'send_anonymous_usage_stats': True, 'quiet': False, 'no_print': False, 'cache_selected_only': False, 'project_name': 'dbt_jaffle_shop', 'skip_profile_setup': False, 'which': 'init', 'indirect_selection': 'eager'}
+[0m09:18:02.649351 [debug] [MainThread]: Tracking: tracking
+[0m09:18:02.651504 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2b863d2320>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2b863d00a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2b863d1720>]}
+[0m09:18:02.653215 [debug] [MainThread]: Starter project path: /home/linux_dev_env/py_env/lib/python3.10/site-packages/dbt/include/starter_project
+[0m09:18:05.034216 [info ] [MainThread]: 
+Your new dbt project "dbt_jaffle_shop" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m09:18:05.034957 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2b89236170>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2b863d1720>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2b863d23e0>]}
+[0m09:18:05.035391 [debug] [MainThread]: Flushing usage events

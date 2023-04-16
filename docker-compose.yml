@@ -1,47 +1,37 @@
 version: "3"
 
 services:
-  server:
-    image: gitea/gitea:1.16.8
-    container_name: gitea
-    environment:
-      - USER_UID=1000
-      - USER_GID=1000
-      - GITEA__database__DB_TYPE=postgres
-      - GITEA__database__HOST=db:5432
-      - GITEA__database__NAME=gitea
-      - GITEA__database__USER=gitea
-      - GITEA__database__PASSWD=gitea
-    restart: always
-    volumes:
-      - ./gitea:/data
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "3000:3000"
-      - "222:22"
-    depends_on:
-      - db
-
   db:
     image: postgres:14.3-alpine
     restart: always
     environment:
-      - POSTGRES_USER=gitea
-      - POSTGRES_PASSWORD=gitea
-      - POSTGRES_DB=gitea
+      - POSTGRES_USER=onedev
+      - POSTGRES_PASSWORD=onedev
+      - POSTGRES_DB=onedev
     ports:
       - 5339:5432  
     volumes:
       - ./postgres:/var/lib/postgresql/data
 
-  jenkins:
-    image: jenkins/jenkins:2.356
-    restart: always
-    environment:
-      - DOCKER_TLS_CERTDIR=/certs
+
+  onedev-app:
+    container_name: onedev-app
+    image: 1dev/server:8.0.15
     ports:
-      - 8085:8080
+      - 6610:6610
+      - 6611:6611
+    environment:
+      - hibernate_cdialect=io.onedev.server.persistence.PostgreSQLDialect
+      - hibernate_cconnection_driver_class=org.postgresql.Driver
+      - hibernate_cconnection_url=jdbc:postgresql://localhost:5432/onedev
+      - hibernate_cconnection_username=postgres
+      - hibernate_cconnection_password=postgres
     volumes:
-      - ./jenkins-data:/var/jenkins_home
-      - ./jenkins-docker-certs:/certs/client
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker_data/onedev:/opt/onedev
+    restart: unless-stopped
+    depends_on:
+      - db
+
+volumes:
+  onedev:
